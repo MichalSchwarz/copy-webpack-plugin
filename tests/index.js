@@ -2,6 +2,8 @@
 import {
     expect
 } from 'chai';
+import NodeJsInputFileSystem from 'enhanced-resolve/lib/NodeJsInputFileSystem';
+import CachedInputFileSystem from 'enhanced-resolve/lib/CachedInputFileSystem';
 
 // ensure we don't mess up classic imports
 const CopyWebpackPlugin = require('./../dist/index');
@@ -30,6 +32,8 @@ class MockCompiler {
         if (options.devServer && options.devServer.outputPath) {
             _.set(this.options, 'devServer.outputPath', options.devServer.outputPath);
         }
+
+        this.inputFileSystem = new CachedInputFileSystem(new NodeJsInputFileSystem(), 0);
 
         this.outputFileSystem = {
             constructor: {
